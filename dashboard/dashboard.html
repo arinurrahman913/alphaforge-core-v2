@@ -1,0 +1,304 @@
+<title>AlphaForge v2 — Dashboard Analisa</title>
+<style>
+:root{
+  --bg:#f4f6f8; --panel:#ffffff; --panel2:#eef1f5; --ink:#151b23; --muted:#5c6773;
+  --line:#e3e7ee; --accent:#0e7490; --accent-ink:#0e7490; --accent-soft:#d7f0f4;
+  --good:#15803d; --good-bg:#dcf5e3; --warn:#b45309; --warn-bg:#fdefcf;
+  --na:#5d6b7a; --na-bg:#e9edf2; --bad:#b91c1c; --bad-bg:#fbe3e3;
+  --up:#15803d; --down:#b91c1c;
+  --shadow:0 1px 2px rgba(20,30,45,.06),0 4px 16px rgba(20,30,45,.05);
+  --font-sans:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  --font-mono:ui-monospace,"SF Mono","Cascadia Code","Roboto Mono",Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme:dark){:root{
+  --bg:#0c1016; --panel:#151b24; --panel2:#1b232e; --ink:#e7ecf3; --muted:#8b98a8;
+  --line:#26303d; --accent:#22d3ee; --accent-ink:#5fe3f5; --accent-soft:#0a3742;
+  --good:#34d399; --good-bg:#0e2a1d; --warn:#fbbf24; --warn-bg:#2c2410;
+  --na:#93a2b3; --na-bg:#1b232e; --bad:#f87171; --bad-bg:#2c1616;
+  --up:#34d399; --down:#f87171;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 6px 20px rgba(0,0,0,.35);
+}}
+:root[data-theme="light"]{
+  --bg:#f4f6f8; --panel:#ffffff; --panel2:#eef1f5; --ink:#151b23; --muted:#5c6773;
+  --line:#e3e7ee; --accent:#0e7490; --accent-ink:#0e7490; --accent-soft:#d7f0f4;
+  --good:#15803d; --good-bg:#dcf5e3; --warn:#b45309; --warn-bg:#fdefcf;
+  --na:#5d6b7a; --na-bg:#e9edf2; --bad:#b91c1c; --bad-bg:#fbe3e3;
+  --up:#15803d; --down:#b91c1c;
+  --shadow:0 1px 2px rgba(20,30,45,.06),0 4px 16px rgba(20,30,45,.05);
+}
+:root[data-theme="dark"]{
+  --bg:#0c1016; --panel:#151b24; --panel2:#1b232e; --ink:#e7ecf3; --muted:#8b98a8;
+  --line:#26303d; --accent:#22d3ee; --accent-ink:#5fe3f5; --accent-soft:#0a3742;
+  --good:#34d399; --good-bg:#0e2a1d; --warn:#fbbf24; --warn-bg:#2c2410;
+  --na:#93a2b3; --na-bg:#1b232e; --bad:#f87171; --bad-bg:#2c1616;
+  --up:#34d399; --down:#f87171;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 6px 20px rgba(0,0,0,.35);
+}
+*{box-sizing:border-box}
+body{margin:0}
+.wrap{background:var(--bg);color:var(--ink);font-family:var(--font-sans);
+  line-height:1.5;-webkit-font-smoothing:antialiased;min-height:100vh;padding:0 0 56px}
+.container{max-width:1080px;margin:0 auto;padding:0 16px}
+.mono{font-family:var(--font-mono);font-variant-numeric:tabular-nums}
+header.top{background:linear-gradient(180deg,var(--panel),var(--bg));
+  border-bottom:1px solid var(--line);padding:22px 0 18px;margin-bottom:18px}
+.brand{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.brand h1{margin:0;font-size:clamp(1.35rem,4.5vw,1.9rem);letter-spacing:-.02em;
+  font-weight:750;text-wrap:balance}
+.brand .v{font-family:var(--font-mono);font-size:.72rem;color:var(--accent-ink);
+  border:1px solid var(--accent);border-radius:6px;padding:2px 6px;font-weight:600}
+.tagline{color:var(--muted);font-size:.92rem;margin:6px 0 0}
+.banner{margin-top:14px;display:flex;gap:10px;align-items:flex-start;
+  background:var(--warn-bg);border:1px solid color-mix(in srgb,var(--warn) 40%,transparent);
+  border-radius:10px;padding:10px 12px;font-size:.82rem;color:var(--ink)}
+.banner b{color:var(--warn)}
+.banner .ic{font-family:var(--font-mono);font-weight:700;color:var(--warn)}
+.sec{margin:26px 0 12px;display:flex;align-items:center;gap:10px}
+.sec h2{margin:0;font-size:.82rem;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--muted);font-weight:700}
+.sec .rule{flex:1;height:1px;background:var(--line)}
+.mc-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+@media(min-width:560px){.mc-grid{grid-template-columns:repeat(3,1fr)}}
+@media(min-width:860px){.mc-grid{grid-template-columns:repeat(4,1fr)}}
+.mc{background:var(--panel);border:1px solid var(--line);border-radius:10px;
+  padding:9px 11px;box-shadow:var(--shadow)}
+.mc .k{font-size:.68rem;color:var(--muted);letter-spacing:.02em;
+  display:flex;justify-content:space-between;align-items:center;gap:6px}
+.mc .val{font-family:var(--font-mono);font-size:.82rem;margin-top:3px;font-weight:600;word-break:break-word}
+.mc .val.empty{color:var(--muted);font-style:italic;font-weight:400}
+.kind{font-size:.56rem;font-family:var(--font-mono);padding:1px 5px;border-radius:4px;
+  letter-spacing:.03em;white-space:nowrap;text-transform:uppercase}
+.kind.direct{background:var(--accent-soft);color:var(--accent-ink)}
+.kind.derived{background:var(--warn-bg);color:var(--warn)}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:16px;
+  box-shadow:var(--shadow);padding:16px;margin-bottom:16px}
+.p-head{display:flex;flex-wrap:wrap;gap:12px 16px;align-items:flex-start;
+  justify-content:space-between;border-bottom:1px solid var(--line);padding-bottom:14px}
+.p-id{display:flex;flex-direction:column;gap:4px;min-width:0}
+.p-tk{font-family:var(--font-mono);font-size:1.5rem;font-weight:750;letter-spacing:-.01em;line-height:1}
+.p-sub{color:var(--muted);font-size:.82rem}
+.chips{display:flex;flex-wrap:wrap;gap:5px;margin-top:2px}
+.chip{font-size:.66rem;font-family:var(--font-mono);padding:2px 7px;border-radius:20px;
+  background:var(--panel2);color:var(--muted);border:1px solid var(--line)}
+.p-meta{display:flex;gap:16px;align-items:center;flex-wrap:wrap}
+.meter{min-width:120px}
+.meter .lab{font-size:.66rem;text-transform:uppercase;letter-spacing:.1em;color:var(--muted)}
+.meter .row{display:flex;align-items:baseline;gap:7px;margin:2px 0 4px}
+.meter .num{font-family:var(--font-mono);font-size:1.25rem;font-weight:700}
+.meter .tag{font-size:.66rem;font-family:var(--font-mono);text-transform:uppercase;
+  padding:1px 6px;border-radius:5px;background:var(--panel2);color:var(--muted)}
+.track{height:6px;border-radius:4px;background:var(--panel2);overflow:hidden;width:130px}
+.track > i{display:block;height:100%;border-radius:4px;background:var(--accent)}
+.risk{display:flex;flex-direction:column;gap:5px;align-items:flex-start}
+.risk .lab{font-size:.66rem;text-transform:uppercase;letter-spacing:.1em;color:var(--muted)}
+.rbadge{font-family:var(--font-mono);font-size:.78rem;font-weight:700;padding:3px 10px;
+  border-radius:7px;display:inline-flex;align-items:center;gap:6px}
+.rbadge::before{content:"";width:8px;height:8px;border-radius:50%;background:currentColor}
+.rbadge.good{background:var(--good-bg);color:var(--good)}
+.rbadge.warn{background:var(--warn-bg);color:var(--warn)}
+.rbadge.bad{background:var(--bad-bg);color:var(--bad)}
+.flags{display:flex;flex-direction:column;gap:3px;margin-top:2px}
+.flag{font-size:.68rem;color:var(--muted)}
+.flag b{color:var(--ink);font-weight:600}
+.lens-note{font-size:.72rem;color:var(--muted);margin:14px 0 10px;display:flex;gap:7px;align-items:center}
+.lens-note b{color:var(--accent-ink)}
+.lenses{display:grid;grid-template-columns:1fr;gap:10px}
+@media(min-width:720px){.lenses{grid-template-columns:repeat(3,1fr)}}
+.lens{background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:12px;
+  display:flex;flex-direction:column;gap:9px}
+.lens h4{margin:0;font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;
+  font-weight:750;display:flex;align-items:center;gap:7px}
+.lens h4 .dot{width:7px;height:7px;border-radius:2px;background:var(--accent)}
+.lens .desc{font-size:.68rem;color:var(--muted);margin-top:-4px}
+.sig{display:inline-flex;align-self:flex-start;font-family:var(--font-mono);font-weight:700;
+  font-size:.74rem;padding:3px 9px;border-radius:7px}
+.sig.good{background:var(--good-bg);color:var(--good)}
+.sig.warn{background:var(--warn-bg);color:var(--warn)}
+.sig.na{background:var(--na-bg);color:var(--na)}
+.score{display:flex;align-items:center;gap:8px}
+.score .track{width:100%}
+.score .pct{font-family:var(--font-mono);font-size:.78rem;font-weight:700;min-width:44px;text-align:right}
+.reasons{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:5px}
+.reasons li{font-size:.74rem;color:var(--ink);padding-left:14px;position:relative;line-height:1.4}
+.reasons li::before{content:"";position:absolute;left:2px;top:8px;width:5px;height:5px;
+  border-radius:50%;background:var(--accent);opacity:.6}
+.rnote{font-size:.7rem;color:var(--warn);background:var(--warn-bg);border-radius:7px;
+  padding:6px 8px;line-height:1.35}
+.jgrid{display:grid;grid-template-columns:1fr;gap:12px}
+@media(min-width:720px){.jgrid{grid-template-columns:repeat(3,1fr)}}
+.jcard{background:var(--panel);border:1px solid var(--line);border-radius:14px;
+  box-shadow:var(--shadow);padding:14px;display:flex;flex-direction:column;gap:10px}
+.jhead{display:flex;justify-content:space-between;align-items:baseline}
+.jhead .tk{font-family:var(--font-mono);font-size:1.1rem;font-weight:750}
+.jhead .days{font-size:.68rem;color:var(--muted);font-family:var(--font-mono)}
+.jprice{display:flex;align-items:baseline;gap:8px;font-family:var(--font-mono)}
+.jprice .from{color:var(--muted);font-size:.9rem}
+.jprice .arrow{color:var(--muted)}
+.jprice .to{font-size:.95rem;font-weight:700}
+.jret{font-family:var(--font-mono);font-size:1.7rem;font-weight:750;line-height:1}
+.jret.up{color:var(--up)} .jret.down{color:var(--down)} .jret.flat{color:var(--muted)}
+.jret .dir{font-size:.66rem;letter-spacing:.08em;text-transform:uppercase;margin-left:6px;
+  vertical-align:middle;color:var(--muted)}
+.align{display:flex;flex-direction:column;gap:5px;border-top:1px solid var(--line);padding-top:9px}
+.align .arow{display:flex;justify-content:space-between;align-items:center;font-size:.72rem}
+.align .m{color:var(--muted);font-family:var(--font-mono);text-transform:uppercase;font-size:.64rem;letter-spacing:.05em}
+.abadge{font-family:var(--font-mono);font-size:.66rem;font-weight:700;padding:1px 7px;border-radius:5px}
+.abadge.aligned{background:var(--good-bg);color:var(--good)}
+.abadge.misaligned{background:var(--bad-bg);color:var(--bad)}
+.abadge.inconclusive{background:var(--na-bg);color:var(--na)}
+.jver{font-size:.64rem;color:var(--muted);font-family:var(--font-mono)}
+.foot{margin-top:30px;border-top:1px solid var(--line);padding-top:16px;
+  font-size:.76rem;color:var(--muted);display:flex;flex-direction:column;gap:10px}
+.foot .disc{background:var(--panel2);border-radius:10px;padding:11px 13px;line-height:1.5}
+.foot code{font-family:var(--font-mono);background:var(--panel);border:1px solid var(--line);
+  padding:1px 5px;border-radius:5px;font-size:.72rem;color:var(--accent-ink)}
+.legend{display:flex;flex-wrap:wrap;gap:10px 16px}
+.legend span{display:inline-flex;align-items:center;gap:5px;font-size:.7rem}
+.legend i{width:9px;height:9px;border-radius:3px;display:inline-block}
+</style>
+
+<div class="wrap">
+  <header class="top"><div class="container">
+    <div class="brand"><h1>AlphaForge</h1><span class="v">v2</span></div>
+    <p class="tagline">Tiga lensa independen berdampingan — bukan satu verdict. Market Context → Screening → Evidence → Knowledge → Risk → 3 Modul → Aggregator → Journal.</p>
+    <div class="banner">
+      <span class="ic">i</span>
+      <span><b>Data contoh (sintetis).</b> Angka di bawah adalah output <i>asli</i> dari program yang dijalankan dengan data perusahaan buatan — struktur &amp; logikanya 100% sama dengan analisa sungguhan. Sandbox pembuatan ini tidak punya akses API pasar live; untuk data nyata, jalankan di laptop Anda (<code style="font-family:var(--font-mono)">analyze AAPL</code>).</span>
+    </div>
+  </div></header>
+
+  <div class="container">
+    <div class="sec"><h2>Market Context — Layer 1</h2><span class="rule"></span></div>
+    <div class="mc-grid" id="mc"></div>
+
+    <div class="sec"><h2>Analisa Saham — Layer 2</h2><span class="rule"></span></div>
+    <div id="stocks"></div>
+
+    <div class="sec"><h2>Decision Journal — Audit Historis</h2><span class="rule"></span></div>
+    <p class="lens-note" style="margin-top:-2px"><b>Pengamatan</b>, bukan vonis benar/salah. Membandingkan sinyal saat analisa dengan gerak harga aktual sesudahnya (Prinsip #6 &amp; #10).</p>
+    <div class="jgrid" id="journal"></div>
+
+    <div class="foot">
+      <div class="legend">
+        <span><i style="background:var(--good)"></i>Kuat / selaras</span>
+        <span><i style="background:var(--warn)"></i>Dipantau / flag sedang</span>
+        <span><i style="background:var(--na)"></i>Belum didukung / inconclusive</span>
+        <span><i style="background:var(--bad)"></i>Risiko tinggi / tidak selaras</span>
+      </div>
+      <div class="disc">Output ini bahan pertimbangan terstruktur, <b>bukan sinyal beli/jual otomatis</b>. AlphaForge tidak meramal masa depan (Prinsip #10). Keputusan akhir ada di tangan investor.</div>
+      <div>Jalankan sendiri: <code>python -m alphaforge_core.cli analyze AAPL --peers MSFT,GOOGL --journal</code></div>
+    </div>
+  </div>
+</div>
+
+<script>
+const DATA = {"market_context": [{"name": "business_cycle_stage", "value": "mid-cycle", "kind": "derived_approximated", "error": null}, {"name": "sector_rotation", "value": {"inflow_sectors": ["Technology (XLK)", "Industrials (XLI)"], "outflow_sectors": ["Utilities (XLU)"]}, "kind": "direct", "error": null}, {"name": "money_flow", "value": "net_inflow_risk_assets", "kind": "derived_approximated", "error": null}, {"name": "liquidity_conditions", "value": "loosening", "kind": "direct", "error": null}, {"name": "yield_curve", "value": "normal", "kind": "direct", "error": null}, {"name": "market_breadth", "value": null, "kind": "derived_approximated", "error": "breadth_constituents belum disuplai"}, {"name": "volatility_index", "value": "low_risk_on", "kind": "direct", "error": null}, {"name": "market_regime", "value": "bull_above_ma200", "kind": "direct", "error": null}, {"name": "macro_calendar", "value": "FOMC dalam 8 hari", "kind": "direct", "error": null}, {"name": "currency_dxy", "value": "sideways", "kind": "direct", "error": null}, {"name": "commodity_signals", "value": "gold_up_oil_flat", "kind": "direct", "error": null}, {"name": "market_sentiment", "value": "greed", "kind": "derived_approximated", "error": null}], "analyses": [{"ticker": "NOVA", "sector": "Technology", "industry": "Software—Application", "size_tier": "micro_cap", "soft_flags": ["micro_cap"], "confidence": {"score": 0.691, "label": "medium", "completeness_ratio": 0.741, "sources_count": 1, "evidence_age_days": 0, "penalty_from_flags": 0.1, "penalty_from_recency": 0.0, "flags_applied": ["micro_cap"]}, "risk": {"overall_risk_level": "none_detected", "flags": [], "confirmed_severe_stop": false, "note": "Flag menempel & wajib direspons ketiga modul reasoning (Prinsip #4) -- bukan otomatis menghentikan proses."}, "views": {"multibagger": {"signal": "strong_growth_candidate", "score": 100.0, "reasoning": ["Revenue CAGR 3 tahun tinggi (46.479%) -- konsisten dengan profil pertumbuhan eksplosif.", "Revenue YoY terbaru sangat tinggi (37.5%).", "Ukuran perusahaan (micro_cap) memberi ruang ekspansi lebih besar secara relatif dibanding large/mega-cap.", "Sektor 'Technology' saat ini termasuk yang mengalami inflow relatif (Sector Rotation Layer 1)."], "risk_note": null}, "quality_compound": {"signal": "strong_quality_candidate", "score": 88.9, "reasoning": ["Net margin kuartalan relatif stabil sepanjang histori yang tersedia.", "Debt-to-equity rendah (0.231) -- struktur balance sheet konservatif.", "Current ratio sehat (2.0).", "FCF margin menunjukkan tren stable."], "risk_note": null}, "speculative": {"signal": "watch", "score": 37.5, "reasoning": ["Tidak ada katalis konkret yang teridentifikasi saat ini -- tesis spekulatif tanpa katalis jelas kurang actionable.", "Ukuran perusahaan (micro_cap) konsisten dengan profil spekulatif (volatilitas & sensitivitas katalis lebih tinggi).", "VIX rendah (risk-on) -- kondisi market saat ini relatif mendukung selera risiko untuk taruhan spekulatif.", "Market Sentiment saat ini 'greed' -- risk appetite umum sedang tinggi."], "risk_note": null}}, "peer_size": 2, "catalysts": [], "methodology_version": "0.1.0"}, {"ticker": "STED", "sector": "Consumer Staples", "industry": "Household Products", "size_tier": "large_cap", "soft_flags": [], "confidence": {"score": 0.791, "label": "high", "completeness_ratio": 0.741, "sources_count": 1, "evidence_age_days": 0, "penalty_from_flags": 0, "penalty_from_recency": 0.0, "flags_applied": []}, "risk": {"overall_risk_level": "none_detected", "flags": [], "confirmed_severe_stop": false, "note": "Flag menempel & wajib direspons ketiga modul reasoning (Prinsip #4) -- bukan otomatis menghentikan proses."}, "views": {"multibagger": {"signal": "not_supported_by_current_evidence", "score": 0.0, "reasoning": ["Revenue CAGR 3 tahun rendah (2.894%) -- kurang mendukung tesis multibagger klasik.", "Ukuran perusahaan (large_cap) -- ruang ekspansi multibagger klasik secara relatif lebih terbatas.", "Sektor 'Consumer Staples' saat ini tidak teridentifikasi sebagai salah satu sektor inflow utama.", "Konteks Business Cycle Stage saat ini: mid-cycle (early/mid-cycle secara historis lebih mendukung growth stocks)."], "risk_note": null}, "quality_compound": {"signal": "strong_quality_candidate", "score": 88.9, "reasoning": ["Net margin kuartalan relatif stabil sepanjang histori yang tersedia.", "Debt-to-equity rendah (0.2) -- struktur balance sheet konservatif.", "Current ratio sehat (2.0).", "FCF margin menunjukkan tren stable."], "risk_note": null}, "speculative": {"signal": "not_supported_by_current_evidence", "score": 25.0, "reasoning": ["Tidak ada katalis konkret yang teridentifikasi saat ini -- tesis spekulatif tanpa katalis jelas kurang actionable.", "VIX rendah (risk-on) -- kondisi market saat ini relatif mendukung selera risiko untuk taruhan spekulatif.", "Market Sentiment saat ini 'greed' -- risk appetite umum sedang tinggi."], "risk_note": null}}, "peer_size": 2, "catalysts": [], "methodology_version": "0.1.0"}, {"ticker": "VOLT", "sector": "Health Care", "industry": "Biotechnology", "size_tier": "micro_cap", "soft_flags": ["micro_cap", "low_liquidity"], "confidence": {"score": 0.641, "label": "medium", "completeness_ratio": 0.741, "sources_count": 1, "evidence_age_days": 0, "penalty_from_flags": 0.15, "penalty_from_recency": 0.0, "flags_applied": ["micro_cap", "low_liquidity"]}, "risk": {"overall_risk_level": "moderate", "flags": [{"type": "possible_litigation_or_investigation", "severity": "medium", "evidence": ["VOLT faces class action lawsuit over trial disclosures"]}, {"type": "high_leverage", "severity": "medium", "evidence": ["debt_to_equity=4.5"]}], "confirmed_severe_stop": false, "note": "Flag menempel & wajib direspons ketiga modul reasoning (Prinsip #4) -- bukan otomatis menghentikan proses."}, "views": {"multibagger": {"signal": "watch", "score": 55.6, "reasoning": ["Revenue CAGR 3 tahun tinggi (25.992%) -- konsisten dengan profil pertumbuhan eksplosif.", "Ukuran perusahaan (micro_cap) memberi ruang ekspansi lebih besar secara relatif dibanding large/mega-cap.", "Sektor 'Health Care' saat ini tidak teridentifikasi sebagai salah satu sektor inflow utama.", "Konteks Business Cycle Stage saat ini: mid-cycle (early/mid-cycle secara historis lebih mendukung growth stocks)."], "risk_note": "Risk/Red-Flag Check menandai level 'moderate' -- lihat detail flag sebelum bertindak atas sinyal pertumbuhan di atas."}, "quality_compound": {"signal": "strong_quality_candidate", "score": 66.7, "reasoning": ["Net margin kuartalan relatif stabil sepanjang histori yang tersedia.", "Debt-to-equity tinggi (4.5) -- perlu diperiksa lebih lanjut untuk tesis kualitas.", "Current ratio sehat (2.0).", "FCF margin menunjukkan tren stable."], "risk_note": "Risk/Red-Flag Check menandai level 'moderate' -- pertimbangkan sebelum menilai kualitas jangka panjang."}, "speculative": {"signal": "watch", "score": 37.5, "reasoning": ["Tidak ada katalis konkret yang teridentifikasi saat ini -- tesis spekulatif tanpa katalis jelas kurang actionable.", "Ukuran perusahaan (micro_cap) konsisten dengan profil spekulatif (volatilitas & sensitivitas katalis lebih tinggi).", "VIX rendah (risk-on) -- kondisi market saat ini relatif mendukung selera risiko untuk taruhan spekulatif.", "Market Sentiment saat ini 'greed' -- risk appetite umum sedang tinggi."], "risk_note": "Risk/Red-Flag Check menandai level 'moderate' -- untuk tesis spekulatif ini relevan sebagai bagian dari downside risk, bukan otomatis diskualifikasi."}}, "peer_size": 2, "catalysts": [], "methodology_version": "0.1.0"}], "journal": [{"entry_id": 1, "ticker": "NOVA", "analyzed_at": "2026-07-16T04:02:36.245793+00:00", "evaluated_as_of": "2026-11-20T00:00:00+00:00", "holding_days": 126.83, "methodology_version_at_analysis": "0.1.0", "methodology_version_now": "0.1.0", "methodology_version_mismatch": false, "price_at_analysis": 66.0, "price_now": 95.0, "realized_return_pct": 43.94, "realized_direction": "up", "module_signals": {"multibagger": "strong_growth_candidate", "quality_compound": "strong_quality_candidate", "speculative": "watch"}, "module_alignment": {"multibagger": "aligned", "quality_compound": "aligned", "speculative": "inconclusive"}, "notes": [], "disclaimer": "Evaluasi ini adalah pengamatan historis (return terealisasi vs stance modul), BUKAN vonis bahwa sebuah modul benar/salah. AlphaForge tidak meramal (Prinsip #10)."}, {"entry_id": 2, "ticker": "STED", "analyzed_at": "2026-07-16T04:02:51.293915+00:00", "evaluated_as_of": "2026-11-20T00:00:00+00:00", "holding_days": 126.83, "methodology_version_at_analysis": "0.1.0", "methodology_version_now": "0.1.0", "methodology_version_mismatch": false, "price_at_analysis": 22.0, "price_now": 23.5, "realized_return_pct": 6.82, "realized_direction": "up", "module_signals": {"multibagger": "not_supported_by_current_evidence", "quality_compound": "strong_quality_candidate", "speculative": "not_supported_by_current_evidence"}, "module_alignment": {"multibagger": "misaligned", "quality_compound": "aligned", "speculative": "misaligned"}, "notes": [], "disclaimer": "Evaluasi ini adalah pengamatan historis (return terealisasi vs stance modul), BUKAN vonis bahwa sebuah modul benar/salah. AlphaForge tidak meramal (Prinsip #10)."}, {"entry_id": 3, "ticker": "VOLT", "analyzed_at": "2026-07-16T04:03:06.356598+00:00", "evaluated_as_of": "2026-11-20T00:00:00+00:00", "holding_days": 126.83, "methodology_version_at_analysis": "0.1.0", "methodology_version_now": "0.1.0", "methodology_version_mismatch": false, "price_at_analysis": 18.0, "price_now": 9.0, "realized_return_pct": -50.0, "realized_direction": "down", "module_signals": {"multibagger": "watch", "quality_compound": "strong_quality_candidate", "speculative": "watch"}, "module_alignment": {"multibagger": "inconclusive", "quality_compound": "misaligned", "speculative": "inconclusive"}, "notes": [], "disclaimer": "Evaluasi ini adalah pengamatan historis (return terealisasi vs stance modul), BUKAN vonis bahwa sebuah modul benar/salah. AlphaForge tidak meramal (Prinsip #10)."}]};
+const SIG = {
+  strong_growth_candidate:["Kandidat pertumbuhan kuat","good"],
+  strong_quality_candidate:["Kandidat kualitas kuat","good"],
+  actionable_speculative_setup:["Setup spekulatif actionable","good"],
+  watch:["Layak dipantau","warn"],
+  not_supported_by_current_evidence:["Belum didukung evidence","na"],
+};
+const LENS = {
+  multibagger:["Multibagger","Pertumbuhan eksplosif jangka panjang"],
+  quality_compound:["Quality / Compound","Compounder berkualitas & konsisten"],
+  speculative:["Speculative","Momentum / katalis, risk-reward asimetris"],
+};
+const RISK = {
+  none_detected:["Tidak ada flag","good"],
+  moderate:["Flag sedang","warn"],
+  elevated:["Flag tinggi","bad"],
+};
+const MCNAME = {
+  business_cycle_stage:"Business Cycle", sector_rotation:"Sector Rotation",
+  money_flow:"Money Flow", liquidity_conditions:"Liquidity", yield_curve:"Yield Curve",
+  market_breadth:"Market Breadth", volatility_index:"Volatility (VIX)",
+  market_regime:"Market Regime", macro_calendar:"Macro Calendar",
+  currency_dxy:"Currency (DXY)", commodity_signals:"Commodity", market_sentiment:"Sentiment",
+};
+const esc = s => String(s==null?"":s).replace(/[&<>]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[c]));
+const fmtVal = v => {
+  if(v==null) return null;
+  if(typeof v==="object"){
+    if(Array.isArray(v.inflow_sectors)) return "in: "+v.inflow_sectors.map(s=>s.split(" (")[0]).join(", ");
+    return JSON.stringify(v);
+  }
+  return String(v).replace(/_/g," ");
+};
+document.getElementById("mc").innerHTML = DATA.market_context.map(c=>{
+  const val = fmtVal(c.value);
+  const kind = c.kind==="derived_approximated" ? '<span class="kind derived">perkiraan</span>'
+             : c.kind==="direct" ? '<span class="kind direct">langsung</span>' : '';
+  const body = val==null
+    ? `<div class="val empty">${esc(c.error||"tidak tersedia")}</div>`
+    : `<div class="val">${esc(val)}</div>`;
+  return `<div class="mc"><div class="k"><span>${esc(MCNAME[c.name]||c.name)}</span>${kind}</div>${body}</div>`;
+}).join("");
+document.getElementById("stocks").innerHTML = DATA.analyses.map(a=>{
+  const conf = a.confidence;
+  const cpct = Math.round((conf.score||0)*100);
+  const [rlab,rcls] = RISK[a.risk.overall_risk_level]||[a.risk.overall_risk_level,"na"];
+  const flags = (a.risk.flags||[]).map(f=>
+    `<div class="flag"><b>${esc(f.type.replace(/_/g," "))}</b> · ${esc(f.severity)} — ${esc((f.evidence||[]).join("; "))}</div>`).join("");
+  const chips = [a.size_tier, ...(a.soft_flags||[])].filter(Boolean)
+    .map(c=>`<span class="chip">${esc(String(c).replace(/_/g," "))}</span>`).join("");
+  const lenses = ["multibagger","quality_compound","speculative"].map(k=>{
+    const v=a.views[k]; const [slab,scls]=SIG[v.signal]||[v.signal,"na"];
+    const [lname,ldesc]=LENS[k];
+    const reasons=(v.reasoning||[]).slice(0,3).map(r=>`<li>${esc(r)}</li>`).join("");
+    const rnote=v.risk_note?`<div class="rnote">${esc(v.risk_note)}</div>`:"";
+    const pct=v.score==null?"—":v.score+"%";
+    const w=v.score==null?0:v.score;
+    return `<div class="lens">
+      <h4><span class="dot"></span>${esc(lname)}</h4>
+      <div class="desc">${esc(ldesc)}</div>
+      <span class="sig ${scls}">${esc(slab)}</span>
+      <div class="score"><div class="track"><i style="width:${w}%"></i></div><span class="pct">${pct}</span></div>
+      <ul class="reasons">${reasons}</ul>${rnote}
+    </div>`;
+  }).join("");
+  const peer = a.peer_size!=null?`<span class="chip">peer group: ${a.peer_size}</span>`:"";
+  return `<div class="panel">
+    <div class="p-head">
+      <div class="p-id">
+        <span class="p-tk">${esc(a.ticker)}</span>
+        <span class="p-sub">${esc(a.sector||"—")}${a.industry?" · "+esc(a.industry):""}</span>
+        <div class="chips">${chips}${peer}</div>
+      </div>
+      <div class="p-meta">
+        <div class="meter">
+          <div class="lab">Confidence</div>
+          <div class="row"><span class="num">${cpct}%</span><span class="tag">${esc(conf.label||"")}</span></div>
+          <div class="track"><i style="width:${cpct}%"></i></div>
+        </div>
+        <div class="risk">
+          <span class="lab">Risk / Red-Flag</span>
+          <span class="rbadge ${rcls}">${esc(rlab)}</span>
+        </div>
+      </div>
+    </div>
+    ${flags?`<div class="flags">${flags}</div>`:""}
+    <div class="lens-note"><b>Tiga lensa independen</b>&nbsp;— Knowledge yang sama, reasoning terpisah. Tidak digabung jadi satu skor.</div>
+    <div class="lenses">${lenses}</div>
+  </div>`;
+}).join("");
+document.getElementById("journal").innerHTML = DATA.journal.map(j=>{
+  const dir=j.realized_direction;
+  const ret=j.realized_return_pct==null?"—":(j.realized_return_pct>0?"+":"")+j.realized_return_pct+"%";
+  const align=["multibagger","quality_compound","speculative"].map(k=>{
+    const a=j.module_alignment[k]||"inconclusive";
+    return `<div class="arow"><span class="m">${k.replace("_compound","/comp").replace("multibagger","multibag")}</span><span class="abadge ${a}">${a}</span></div>`;
+  }).join("");
+  const mism = j.methodology_version_mismatch
+    ? `<div class="jver" style="color:var(--warn)">⚠ versi metodologi beda: ${esc(j.methodology_version_at_analysis)} → ${esc(j.methodology_version_now)}</div>`
+    : `<div class="jver">metodologi v${esc(j.methodology_version_now)}</div>`;
+  return `<div class="jcard">
+    <div class="jhead"><span class="tk">${esc(j.ticker)}</span><span class="days">${j.holding_days} hari</span></div>
+    <div class="jprice"><span class="from">$${esc(j.price_at_analysis)}</span><span class="arrow">→</span><span class="to">$${esc(j.price_now)}</span></div>
+    <div class="jret ${dir}">${ret}<span class="dir">${esc(dir)}</span></div>
+    <div class="align">${align}</div>
+    ${mism}
+  </div>`;
+}).join("");
+</script>
