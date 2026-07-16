@@ -1,0 +1,373 @@
+{
+  "market_context": [
+    {
+      "name": "business_cycle_stage",
+      "value": "mid-cycle",
+      "kind": "derived_approximated",
+      "error": null
+    },
+    {
+      "name": "sector_rotation",
+      "value": {
+        "inflow_sectors": [
+          "Technology (XLK)",
+          "Industrials (XLI)"
+        ],
+        "outflow_sectors": [
+          "Utilities (XLU)"
+        ]
+      },
+      "kind": "direct",
+      "error": null
+    },
+    {
+      "name": "money_flow",
+      "value": "net_inflow_risk_assets",
+      "kind": "derived_approximated",
+      "error": null
+    },
+    {
+      "name": "liquidity_conditions",
+      "value": "loosening",
+      "kind": "direct",
+      "error": null
+    },
+    {
+      "name": "yield_curve",
+      "value": "normal",
+      "kind": "direct",
+      "error": null
+    },
+    {
+      "name": "market_breadth",
+      "value": null,
+      "kind": "derived_approximated",
+      "error": "breadth_constituents belum disuplai"
+    },
+    {
+      "name": "volatility_index",
+      "value": "low_risk_on",
+      "kind": "direct",
+      "error": null
+    },
+    {
+      "name": "market_regime",
+      "value": "bull_above_ma200",
+      "kind": "direct",
+      "error": null
+    },
+    {
+      "name": "macro_calendar",
+      "value": "FOMC dalam 8 hari",
+      "kind": "direct",
+      "error": null
+    },
+    {
+      "name": "currency_dxy",
+      "value": "sideways",
+      "kind": "direct",
+      "error": null
+    },
+    {
+      "name": "commodity_signals",
+      "value": "gold_up_oil_flat",
+      "kind": "direct",
+      "error": null
+    },
+    {
+      "name": "market_sentiment",
+      "value": "greed",
+      "kind": "derived_approximated",
+      "error": null
+    }
+  ],
+  "analyses": [
+    {
+      "ticker": "NOVA",
+      "sector": "Technology",
+      "industry": "Software—Application",
+      "size_tier": "micro_cap",
+      "soft_flags": [
+        "micro_cap"
+      ],
+      "confidence": {
+        "score": 0.691,
+        "label": "medium",
+        "completeness_ratio": 0.741,
+        "sources_count": 1,
+        "evidence_age_days": 0,
+        "penalty_from_flags": 0.1,
+        "penalty_from_recency": 0.0,
+        "flags_applied": [
+          "micro_cap"
+        ]
+      },
+      "risk": {
+        "overall_risk_level": "none_detected",
+        "flags": [],
+        "confirmed_severe_stop": false,
+        "note": "Flag menempel & wajib direspons ketiga modul reasoning (Prinsip #4) -- bukan otomatis menghentikan proses."
+      },
+      "views": {
+        "multibagger": {
+          "signal": "strong_growth_candidate",
+          "score": 100.0,
+          "reasoning": [
+            "Revenue CAGR 3 tahun tinggi (46.479%) -- konsisten dengan profil pertumbuhan eksplosif.",
+            "Revenue YoY terbaru sangat tinggi (37.5%).",
+            "Ukuran perusahaan (micro_cap) memberi ruang ekspansi lebih besar secara relatif dibanding large/mega-cap.",
+            "Sektor 'Technology' saat ini termasuk yang mengalami inflow relatif (Sector Rotation Layer 1)."
+          ],
+          "risk_note": null
+        },
+        "quality_compound": {
+          "signal": "strong_quality_candidate",
+          "score": 88.9,
+          "reasoning": [
+            "Net margin kuartalan relatif stabil sepanjang histori yang tersedia.",
+            "Debt-to-equity rendah (0.231) -- struktur balance sheet konservatif.",
+            "Current ratio sehat (2.0).",
+            "FCF margin menunjukkan tren stable."
+          ],
+          "risk_note": null
+        },
+        "speculative": {
+          "signal": "watch",
+          "score": 37.5,
+          "reasoning": [
+            "Tidak ada katalis konkret yang teridentifikasi saat ini -- tesis spekulatif tanpa katalis jelas kurang actionable.",
+            "Ukuran perusahaan (micro_cap) konsisten dengan profil spekulatif (volatilitas & sensitivitas katalis lebih tinggi).",
+            "VIX rendah (risk-on) -- kondisi market saat ini relatif mendukung selera risiko untuk taruhan spekulatif.",
+            "Market Sentiment saat ini 'greed' -- risk appetite umum sedang tinggi."
+          ],
+          "risk_note": null
+        }
+      },
+      "peer_size": 2,
+      "catalysts": [],
+      "methodology_version": "0.1.0"
+    },
+    {
+      "ticker": "STED",
+      "sector": "Consumer Staples",
+      "industry": "Household Products",
+      "size_tier": "large_cap",
+      "soft_flags": [],
+      "confidence": {
+        "score": 0.791,
+        "label": "high",
+        "completeness_ratio": 0.741,
+        "sources_count": 1,
+        "evidence_age_days": 0,
+        "penalty_from_flags": 0,
+        "penalty_from_recency": 0.0,
+        "flags_applied": []
+      },
+      "risk": {
+        "overall_risk_level": "none_detected",
+        "flags": [],
+        "confirmed_severe_stop": false,
+        "note": "Flag menempel & wajib direspons ketiga modul reasoning (Prinsip #4) -- bukan otomatis menghentikan proses."
+      },
+      "views": {
+        "multibagger": {
+          "signal": "not_supported_by_current_evidence",
+          "score": 0.0,
+          "reasoning": [
+            "Revenue CAGR 3 tahun rendah (2.894%) -- kurang mendukung tesis multibagger klasik.",
+            "Ukuran perusahaan (large_cap) -- ruang ekspansi multibagger klasik secara relatif lebih terbatas.",
+            "Sektor 'Consumer Staples' saat ini tidak teridentifikasi sebagai salah satu sektor inflow utama.",
+            "Konteks Business Cycle Stage saat ini: mid-cycle (early/mid-cycle secara historis lebih mendukung growth stocks)."
+          ],
+          "risk_note": null
+        },
+        "quality_compound": {
+          "signal": "strong_quality_candidate",
+          "score": 88.9,
+          "reasoning": [
+            "Net margin kuartalan relatif stabil sepanjang histori yang tersedia.",
+            "Debt-to-equity rendah (0.2) -- struktur balance sheet konservatif.",
+            "Current ratio sehat (2.0).",
+            "FCF margin menunjukkan tren stable."
+          ],
+          "risk_note": null
+        },
+        "speculative": {
+          "signal": "not_supported_by_current_evidence",
+          "score": 25.0,
+          "reasoning": [
+            "Tidak ada katalis konkret yang teridentifikasi saat ini -- tesis spekulatif tanpa katalis jelas kurang actionable.",
+            "VIX rendah (risk-on) -- kondisi market saat ini relatif mendukung selera risiko untuk taruhan spekulatif.",
+            "Market Sentiment saat ini 'greed' -- risk appetite umum sedang tinggi."
+          ],
+          "risk_note": null
+        }
+      },
+      "peer_size": 2,
+      "catalysts": [],
+      "methodology_version": "0.1.0"
+    },
+    {
+      "ticker": "VOLT",
+      "sector": "Health Care",
+      "industry": "Biotechnology",
+      "size_tier": "micro_cap",
+      "soft_flags": [
+        "micro_cap",
+        "low_liquidity"
+      ],
+      "confidence": {
+        "score": 0.641,
+        "label": "medium",
+        "completeness_ratio": 0.741,
+        "sources_count": 1,
+        "evidence_age_days": 0,
+        "penalty_from_flags": 0.15,
+        "penalty_from_recency": 0.0,
+        "flags_applied": [
+          "micro_cap",
+          "low_liquidity"
+        ]
+      },
+      "risk": {
+        "overall_risk_level": "moderate",
+        "flags": [
+          {
+            "type": "possible_litigation_or_investigation",
+            "severity": "medium",
+            "evidence": [
+              "VOLT faces class action lawsuit over trial disclosures"
+            ]
+          },
+          {
+            "type": "high_leverage",
+            "severity": "medium",
+            "evidence": [
+              "debt_to_equity=4.5"
+            ]
+          }
+        ],
+        "confirmed_severe_stop": false,
+        "note": "Flag menempel & wajib direspons ketiga modul reasoning (Prinsip #4) -- bukan otomatis menghentikan proses."
+      },
+      "views": {
+        "multibagger": {
+          "signal": "watch",
+          "score": 55.6,
+          "reasoning": [
+            "Revenue CAGR 3 tahun tinggi (25.992%) -- konsisten dengan profil pertumbuhan eksplosif.",
+            "Ukuran perusahaan (micro_cap) memberi ruang ekspansi lebih besar secara relatif dibanding large/mega-cap.",
+            "Sektor 'Health Care' saat ini tidak teridentifikasi sebagai salah satu sektor inflow utama.",
+            "Konteks Business Cycle Stage saat ini: mid-cycle (early/mid-cycle secara historis lebih mendukung growth stocks)."
+          ],
+          "risk_note": "Risk/Red-Flag Check menandai level 'moderate' -- lihat detail flag sebelum bertindak atas sinyal pertumbuhan di atas."
+        },
+        "quality_compound": {
+          "signal": "strong_quality_candidate",
+          "score": 66.7,
+          "reasoning": [
+            "Net margin kuartalan relatif stabil sepanjang histori yang tersedia.",
+            "Debt-to-equity tinggi (4.5) -- perlu diperiksa lebih lanjut untuk tesis kualitas.",
+            "Current ratio sehat (2.0).",
+            "FCF margin menunjukkan tren stable."
+          ],
+          "risk_note": "Risk/Red-Flag Check menandai level 'moderate' -- pertimbangkan sebelum menilai kualitas jangka panjang."
+        },
+        "speculative": {
+          "signal": "watch",
+          "score": 37.5,
+          "reasoning": [
+            "Tidak ada katalis konkret yang teridentifikasi saat ini -- tesis spekulatif tanpa katalis jelas kurang actionable.",
+            "Ukuran perusahaan (micro_cap) konsisten dengan profil spekulatif (volatilitas & sensitivitas katalis lebih tinggi).",
+            "VIX rendah (risk-on) -- kondisi market saat ini relatif mendukung selera risiko untuk taruhan spekulatif.",
+            "Market Sentiment saat ini 'greed' -- risk appetite umum sedang tinggi."
+          ],
+          "risk_note": "Risk/Red-Flag Check menandai level 'moderate' -- untuk tesis spekulatif ini relevan sebagai bagian dari downside risk, bukan otomatis diskualifikasi."
+        }
+      },
+      "peer_size": 2,
+      "catalysts": [],
+      "methodology_version": "0.1.0"
+    }
+  ],
+  "journal": [
+    {
+      "entry_id": 1,
+      "ticker": "NOVA",
+      "analyzed_at": "2026-07-16T04:02:36.245793+00:00",
+      "evaluated_as_of": "2026-11-20T00:00:00+00:00",
+      "holding_days": 126.83,
+      "methodology_version_at_analysis": "0.1.0",
+      "methodology_version_now": "0.1.0",
+      "methodology_version_mismatch": false,
+      "price_at_analysis": 66.0,
+      "price_now": 95.0,
+      "realized_return_pct": 43.94,
+      "realized_direction": "up",
+      "module_signals": {
+        "multibagger": "strong_growth_candidate",
+        "quality_compound": "strong_quality_candidate",
+        "speculative": "watch"
+      },
+      "module_alignment": {
+        "multibagger": "aligned",
+        "quality_compound": "aligned",
+        "speculative": "inconclusive"
+      },
+      "notes": [],
+      "disclaimer": "Evaluasi ini adalah pengamatan historis (return terealisasi vs stance modul), BUKAN vonis bahwa sebuah modul benar/salah. AlphaForge tidak meramal (Prinsip #10)."
+    },
+    {
+      "entry_id": 2,
+      "ticker": "STED",
+      "analyzed_at": "2026-07-16T04:02:51.293915+00:00",
+      "evaluated_as_of": "2026-11-20T00:00:00+00:00",
+      "holding_days": 126.83,
+      "methodology_version_at_analysis": "0.1.0",
+      "methodology_version_now": "0.1.0",
+      "methodology_version_mismatch": false,
+      "price_at_analysis": 22.0,
+      "price_now": 23.5,
+      "realized_return_pct": 6.82,
+      "realized_direction": "up",
+      "module_signals": {
+        "multibagger": "not_supported_by_current_evidence",
+        "quality_compound": "strong_quality_candidate",
+        "speculative": "not_supported_by_current_evidence"
+      },
+      "module_alignment": {
+        "multibagger": "misaligned",
+        "quality_compound": "aligned",
+        "speculative": "misaligned"
+      },
+      "notes": [],
+      "disclaimer": "Evaluasi ini adalah pengamatan historis (return terealisasi vs stance modul), BUKAN vonis bahwa sebuah modul benar/salah. AlphaForge tidak meramal (Prinsip #10)."
+    },
+    {
+      "entry_id": 3,
+      "ticker": "VOLT",
+      "analyzed_at": "2026-07-16T04:03:06.356598+00:00",
+      "evaluated_as_of": "2026-11-20T00:00:00+00:00",
+      "holding_days": 126.83,
+      "methodology_version_at_analysis": "0.1.0",
+      "methodology_version_now": "0.1.0",
+      "methodology_version_mismatch": false,
+      "price_at_analysis": 18.0,
+      "price_now": 9.0,
+      "realized_return_pct": -50.0,
+      "realized_direction": "down",
+      "module_signals": {
+        "multibagger": "watch",
+        "quality_compound": "strong_quality_candidate",
+        "speculative": "watch"
+      },
+      "module_alignment": {
+        "multibagger": "inconclusive",
+        "quality_compound": "misaligned",
+        "speculative": "inconclusive"
+      },
+      "notes": [],
+      "disclaimer": "Evaluasi ini adalah pengamatan historis (return terealisasi vs stance modul), BUKAN vonis bahwa sebuah modul benar/salah. AlphaForge tidak meramal (Prinsip #10)."
+    }
+  ]
+}
