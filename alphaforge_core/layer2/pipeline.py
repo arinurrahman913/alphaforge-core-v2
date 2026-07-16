@@ -5,9 +5,11 @@ Screening -> Evidence -> Knowledge -> Confidence + Peer Comparison ->
 Risk/Red-Flag Check -> [Multibagger, Quality/Compound, Speculative] -> Aggregator
 
 Sesuai diagram di 01_ARCHITECTURE/03_LAYER2_STOCK_ANALYSIS.md bagian 3.
-Historical Tracking / Decision Journal (tahap terakhir) sengaja belum
-diimplementasikan di sini -- itu diakui eksplisit sebagai kandidat v2.1 di
-03_LAYER2_SPECS/12_HISTORICAL_TRACKING_JOURNAL.md.
+Tahap terakhir (Historical Tracking / Decision Journal) diimplementasikan
+terpisah di `journal.py` — perekaman ke jurnal sengaja tidak dipaksakan di
+dalam fungsi ini supaya `analyze_single_ticker` tetap murni (tanpa efek samping
+tulis ke DB). Caller (mis. CLI dengan flag `--journal`) yang memutuskan kapan
+sebuah Output disimpan sebagai entri historis.
 """
 from __future__ import annotations
 

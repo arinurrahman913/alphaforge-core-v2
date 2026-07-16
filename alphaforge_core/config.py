@@ -45,6 +45,25 @@ FINNHUB_API_KEY = os.environ.get("FINNHUB_API_KEY", "")
 CACHE_DIR = Path(os.environ.get("ALPHAFORGE_CACHE_DIR", str(Path.home() / ".alphaforge_v2_cache")))
 CACHE_DB_PATH = CACHE_DIR / "cache.sqlite3"
 
+# ---------------------------------------------------------------------------
+# Historical Tracking / Decision Journal (03_LAYER2_SPECS/12_...md)
+# ---------------------------------------------------------------------------
+# Versi metodologi/formula. WAJIB ikut tersimpan di tiap entri jurnal supaya
+# audit di masa depan tidak keliru membandingkan kesimpulan lama dengan formula
+# yang sudah berubah (Prinsip #6, 00_Foundation/02_PRINCIPLES.md). Naikkan versi
+# ini setiap kali logika reasoning/scoring yang mempengaruhi Output berubah.
+METHODOLOGY_VERSION = os.environ.get("ALPHAFORGE_METHODOLOGY_VERSION", "0.1.0")
+
+# DB jurnal dipisah dari cache: cache boleh dihapus/kadaluarsa kapan saja,
+# jurnal justru harus persisten untuk audit jangka panjang.
+JOURNAL_DIR = Path(os.environ.get("ALPHAFORGE_JOURNAL_DIR", str(Path.home() / ".alphaforge_v2_journal")))
+JOURNAL_DB_PATH = JOURNAL_DIR / "journal.sqlite3"
+
+# Ambang gerak harga (%) untuk mengklasifikasikan arah realisasi saat evaluasi.
+# Di bawah ini dianggap "flat" (tidak konklusif), bukan naik/turun. Keputusan
+# implementasi awal, boleh dikalibrasi.
+JOURNAL_FLAT_BAND_PCT = 5.0
+
 # TTL per jenis data (detik). Lihat 04_DATA_SOURCES/05_RATE_LIMIT_CACHING_STRATEGY.md
 # — nilai ini adalah keputusan implementasi awal, boleh dikalibrasi ulang.
 TTL_SECONDS = {

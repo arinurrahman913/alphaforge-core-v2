@@ -15,11 +15,20 @@ digabung oleh `market_context_engine.py` jadi satu Market Context Package.
 **Layer 2 — Stock Analysis Engine (end-to-end untuk 1 ticker):**
 Screening → Evidence → Knowledge → Confidence + Peer Comparison →
 Risk/Red-Flag Check → [Multibagger, Quality/Compound, Speculative] →
-Aggregator. Orkestrasinya ada di `alphaforge_core/layer2/pipeline.py`.
+Aggregator → Historical Tracking / Decision Journal. Orkestrasi analisa ada di
+`alphaforge_core/layer2/pipeline.py`; perekaman & audit jurnal di
+`alphaforge_core/layer2/journal.py`.
+
+**Historical Tracking / Decision Journal (`journal.py`):**
+Menyimpan snapshot Output (tiga view + confidence + risk flag + **versi
+metodologi**) tiap analisa, lalu membandingkannya dengan harga aktual di
+kemudian hari untuk audit (Prinsip #6). Rincian di bagian "Decision Journal" di
+bawah. Setiap entri mencatat `methodology_version`; saat evaluasi, versi yang
+berbeda ditandai eksplisit supaya audit tidak keliru membandingkan formula yang
+sudah berubah. Evaluasi bersifat deskriptif (return terealisasi + keselarasan
+arah), **bukan** vonis modul benar/salah — AlphaForge tidak meramal (Prinsip #10).
 
 ## Belum diimplementasikan (diakui eksplisit di spec sebagai boleh menyusul)
-- Historical Tracking / Decision Journal (`03_LAYER2_SPECS/12_...md` menyebut ini
-  eksplisit sebagai kandidat v2.1).
 - `screen_universe()` untuk full market-wide screening ada, tapi belum dites
   terhadap ribuan ticker riil (butuh koneksi network yang tidak tersedia di
   sandbox pembuatan kode ini).
@@ -93,6 +102,30 @@ python -m alphaforge_core.cli analyze AAPL --pretty
 python -m alphaforge_core.cli analyze AAPL --peers MSFT,GOOGL,META --pretty
 ```
 
+### Decision Journal (Historical Tracking)
+
+```bash
+# Analisa + rekam hasilnya ke jurnal (menyimpan snapshot + versi metodologi
+# + harga saat analisa untuk diaudit nanti)
+python -m alphaforge_core.cli analyze AAPL --journal
+
+# Lihat entri tersimpan (semua, atau per ticker)
+python -m alphaforge_core.cli journal list
+python -m alphaforge_core.cli journal list AAPL
+
+# Audit: bandingkan entri lama dengan harga aktual sekarang.
+# --min-days membatasi ke entri yang sudah cukup "matang" (mis. >= 90 hari) —
+# membandingkan reasoning jangka panjang dengan gerak harga beberapa hari tidak bermakna.
+python -m alphaforge_core.cli journal evaluate --min-days 90
+python -m alphaforge_core.cli journal evaluate --ticker AAPL --json --pretty
+```
+
+Jurnal disimpan sebagai SQLite di `~/.alphaforge_v2_journal/journal.sqlite3`
+(override lewat env `ALPHAFORGE_JOURNAL_DIR`). Terpisah dari cache: cache boleh
+kadaluarsa, jurnal harus persisten untuk audit jangka panjang. Versi metodologi
+diambil dari `ALPHAFORGE_METHODOLOGY_VERSION` (default `0.1.0`) — naikkan setiap
+kali logika reasoning/scoring yang mempengaruhi Output berubah.
+
 Atau dari Python langsung:
 
 ```python
@@ -104,6 +137,14 @@ result = analyze_single_ticker("AAPL", market_context, peer_tickers=["MSFT", "GO
 print(result["views"]["multibagger"])
 print(result["views"]["quality_compound"])
 print(result["views"]["speculative"])
+
+# Rekam ke Decision Journal + audit belakangan
+from alphaforge_core.layer2.journal import default_journal
+journal = default_journal()
+entry_id = journal.record(result, price_at_analysis=195.0)   # harga saat analisa
+# ... berbulan-bulan kemudian ...
+evaluation = journal.evaluate_entry(entry_id, current_price=260.0)
+print(evaluation["realized_return_pct"], evaluation["module_alignment"])
 ```
 
 ## Menjalankan tes (tidak butuh network / API key)
@@ -111,12 +152,14 @@ print(result["views"]["speculative"])
 ```bash
 python3 tests/test_layer1_logic.py
 python3 tests/test_layer2_logic.py
+python3 tests/test_journal_logic.py
 ```
 
-Kedua file ini memvalidasi logika murni (klasifikasi yield curve, market
-regime, derivasi Knowledge, confidence scoring, risk/red-flag detection, dan
-independensi tiga modul reasoning) memakai data sintetis lewat monkeypatching
-— jadi bisa jalan di sandbox mana pun tanpa API key.
+Ketiga file ini memvalidasi logika murni (klasifikasi yield curve, market
+regime, derivasi Knowledge, confidence scoring, risk/red-flag detection,
+independensi tiga modul reasoning, serta perekaman & evaluasi Decision Journal)
+memakai data sintetis / DB in-memory / price-lookup suntikan — jadi bisa jalan
+di sandbox mana pun tanpa API key.
 
 ## Struktur
 
@@ -144,11 +187,13 @@ alphaforge_core/
       quality_compound.py
       speculative.py
     aggregator.py               — gabungkan 3 pandangan berdampingan
+    journal.py                 — Historical Tracking / Decision Journal (rekam + audit)
     pipeline.py                — orkestrator end-to-end 1 ticker
-  cli.py                      — command-line interface
+  cli.py                      — command-line interface (analyze / context / journal)
 tests/
   test_layer1_logic.py
   test_layer2_logic.py
+  test_journal_logic.py
 ```
 
 ## Catatan desain penting (mengikuti Prinsip di `00_Foundation/02_PRINCIPLES.md`)

@@ -8,6 +8,8 @@ from __future__ import annotations
 
 from datetime import datetime, timezone
 
+from .. import config
+
 
 def aggregate(ticker: str, knowledge: dict, confidence: dict, risk_flags: dict,
               multibagger_result: dict, quality_compound_result: dict,
@@ -15,6 +17,9 @@ def aggregate(ticker: str, knowledge: dict, confidence: dict, risk_flags: dict,
     return {
         "ticker": ticker,
         "generated_at": datetime.now(timezone.utc).isoformat(),
+        # Versi metodologi ikut di output supaya bisa disimpan apa adanya oleh
+        # Historical Tracking / Decision Journal (Prinsip #6).
+        "methodology_version": config.METHODOLOGY_VERSION,
         "confidence": confidence,
         "risk_redflag": risk_flags,
         "market_context_summary": market_context_summary,
