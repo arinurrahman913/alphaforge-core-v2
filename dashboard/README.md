@@ -6,11 +6,15 @@ desktop.
 
 ## 🔗 Buka versi online
 
-**https://claude.ai/code/artifact/e58c86f9-a3f9-4326-82e4-1f49ed319a64**
+**Publik (GitHub Pages, bisa dibuka di HP tanpa login):**
+**https://arinurrahman913.github.io/alphaforge-core-v2/**
 
-> Catatan: link di atas adalah artifact Claude milik pemilik repo. Secara default
-> **privat** — kalau ingin orang lain bisa membukanya, share dari menu artifact.
-> Untuk membuka lokal tanpa link, cukup buka file `dashboard.html` di browser.
+Dilayani otomatis dari `dashboard.html` lewat GitHub Actions
+(`.github/workflows/deploy-pages.yml`) setiap ada push ke `main`. Aktif setelah
+Pages dinyalakan sekali di **Settings › Pages › Source: GitHub Actions**.
+
+_Alternatif:_ buka file `dashboard.html` langsung di browser (offline), atau
+lihat artifact privat di claude.ai (butuh login akun pemilik).
 
 ## Apa yang ditampilkan
 
