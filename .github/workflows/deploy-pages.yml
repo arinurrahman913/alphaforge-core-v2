@@ -1,0 +1,57 @@
+name: Deploy Dashboard ke GitHub Pages
+
+# Publikasikan dashboard/dashboard.html sebagai situs GitHub Pages publik,
+# supaya bisa dibuka di HP mana pun tanpa login (URL:
+# https://<user>.github.io/alphaforge-core-v2/). Jalan otomatis tiap ada push
+# ke main, dan bisa dipicu manual dari tab Actions (Run workflow).
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "dashboard/**"
+      - ".github/workflows/deploy-pages.yml"
+  workflow_dispatch:
+
+# Izin minimum yang dibutuhkan untuk deploy Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Hanya satu deploy berjalan pada satu waktu
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Pages (auto-enable kalau belum aktif)
+        uses: actions/configure-pages@v5
+        with:
+          enablement: true
+
+      - name: Siapkan isi situs
+        run: |
+          mkdir -p _site
+          # index.html = dashboard, jadi root situs langsung menampilkannya
+          cp dashboard/dashboard.html _site/index.html
+          # sertakan juga data mentahnya untuk yang mau lihat JSON-nya
+          cp dashboard/sample_data.json _site/sample_data.json
+
+      - name: Upload artifact Pages
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+      - name: Deploy ke GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

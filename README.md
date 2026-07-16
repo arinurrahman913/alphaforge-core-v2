@@ -6,15 +6,17 @@ dari repo dokumentasi aslinya).
 
 ## 📊 Dashboard (lihat output secara visual)
 
-Dashboard web statis untuk melihat hasil analisa (bisa dibuka di HP):
+Dashboard web statis untuk melihat hasil analisa — bisa dibuka di HP mana pun:
 
-**🔗 https://claude.ai/code/artifact/e58c86f9-a3f9-4326-82e4-1f49ed319a64**
+**🔗 Publik (GitHub Pages): https://arinurrahman913.github.io/alphaforge-core-v2/**
+
+Link publik ini dilayani otomatis dari `dashboard/dashboard.html` lewat GitHub
+Actions (`.github/workflows/deploy-pages.yml`) — tanpa perlu login. Aktif setelah
+Pages dinyalakan sekali di **Settings › Pages › Source: GitHub Actions**.
 
 Menampilkan Market Context (Layer 1), tiga lensa reasoning berdampingan per
 saham (Layer 2), dan Decision Journal. Pakai data contoh — struktur identik
 dengan analisa live. Detail & cara regenerate: [`dashboard/`](dashboard/).
-_(Link artifact di atas privat secara default; share dari menu artifact kalau
-mau dibuka orang lain, atau buka `dashboard/dashboard.html` langsung di browser.)_
 
 ## Cakupan yang sudah diimplementasikan
 
